@@ -16,7 +16,7 @@
     <li>
     <%= link_to 'Delete', account_transaction_path(@account, transaction), :confirm => 'Are you sure?', :method => :delete %> - 
     <%= link_to 'Edit', edit_account_transaction_path(@account, transaction) %> - 
-    <%= transaction.timestamp %> : <%= transaction.amount %> : <%= transaction.description %></li>
+    <%= transaction.timestamp %> : <%= transaction.withholdIncrementToday %> / <%= transaction.amount %> : <%= transaction.description %></li>
   <% end %> 
 </ul>
 

@@ -29,16 +29,29 @@ class AccountsController < ApplicationController
                 ii += 1
             end
 
+            withholdIncrementToday = false
             while it < @transactions.size && @transactions[it].timestamp <= d
-                balance += @transactions[it].amount
-                @virtual_transactions.push(Transaction.new(account_id: @account.id, timestamp: @transactions[it].timestamp, amount: @transactions[it].amount, description: @transactions[it].description, balance: balance))
+                if @transactions[it].withholdIncrementToday?
+                    if !withholdIncrementToday
+                        # Note: the transaction's amount is ignored
+                        @virtual_transactions.push(Transaction.new(account_id: @account.id, timestamp: @transactions[it].timestamp, amount: 0.0, description: '[Withholding allowance] ' + @transactions[it].description, balance: balance))
+                        withholdIncrementToday = true
+                    else
+                        puts("Unexpected: Two withholds on the same day... ignoring the second one")
+                    end
+                else
+                    balance += @transactions[it].amount
+                    @virtual_transactions.push(Transaction.new(account_id: @account.id, timestamp: @transactions[it].timestamp, amount: @transactions[it].amount, description: @transactions[it].description, balance: balance))
+                end
                 it += 1
             end
 
-            increment = ii > 0 ? @incrementors[ii - 1].amountperday : 0
-            if increment != 0
-                balance += increment
-                @virtual_transactions.push(Transaction.new(account_id: @account, timestamp: d, amount: increment, description: "Allowance", balance: balance))
+            if !withholdIncrementToday
+                increment = ii > 0 ? @incrementors[ii - 1].amountperday : 0
+                if increment != 0
+                    balance += increment
+                    @virtual_transactions.push(Transaction.new(account_id: @account, timestamp: d, amount: increment, description: "Allowance", balance: balance))
+                end
             end
 
             id += 1

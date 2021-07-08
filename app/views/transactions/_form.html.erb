@@ -11,6 +11,11 @@
   </div>
 
   <div>
+    <%=t.label :withholdIncrementToday %><br />
+    <%=t.check_box :withholdIncrementToday %><br />
+  </div>
+
+  <div>
     <%=t.label :amount %><br />
     <%=t.text_field :amount %><br />
     <% @transaction.errors.full_messages_for(:amount).each do |msg| %>

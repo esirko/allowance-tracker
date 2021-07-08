@@ -45,6 +45,6 @@ class TransactionsController < ApplicationController
 
   private
   def transaction_params
-      params.require(:transaction).permit(:account_id, :timestamp, :amount, :description)
+      params.require(:transaction).permit(:account_id, :timestamp, :withholdIncrementToday, :amount, :description)
   end
 end
