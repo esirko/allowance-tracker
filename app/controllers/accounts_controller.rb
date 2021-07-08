@@ -8,7 +8,14 @@ class AccountsController < ApplicationController
         @transactions = @account.transactions.order(:timestamp)
         @incrementors = @account.incrementors.order(:effectivedate)
 
-        start_date = [@transactions.first.timestamp.to_date, @incrementors.first.effectivedate.to_date].min
+        start_date = Date.today
+        if @transactions.any?
+            start_date = @transactions.first.timestamp.to_date
+        end
+        if @incrementors.any?
+            start_date = @incrementors.first.effectivedate.to_date
+        end
+
         end_date = Date.today + 1
 
         @virtual_transactions = Array.new
