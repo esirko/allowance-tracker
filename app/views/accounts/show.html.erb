@@ -1,0 +1,37 @@
+<h1><%= @account.name %></h1>
+
+<!--
+-->
+<h2>Virtual transactions</h2>
+<ul>
+  <% @virtual_transactions.each do |transaction| %>
+    <li>
+    <%= transaction.timestamp %> : <%= transaction.amount %> : <%= transaction.description %> : <%= transaction.balance %></li>
+  <% end %> 
+</ul>
+
+<h2>Raw transactions</h2>
+<ul>
+  <% @account.transactions.order(:timestamp).each do |transaction| %>
+    <li>
+    <%= link_to 'Delete', account_transaction_path(@account, transaction), :confirm => 'Are you sure?', :method => :delete %> - 
+    <%= link_to 'Edit', edit_account_transaction_path(@account, transaction) %> - 
+    <%= transaction.timestamp %> : <%= transaction.amount %> : <%= transaction.description %></li>
+  <% end %> 
+</ul>
+
+<%= link_to 'New Transaction', new_account_transaction_path(@account) %>
+
+<h2>Raw incrementors</h2>
+<ul>
+  <% @account.incrementors.order(:effectivedate).each do |incrementor| %>
+    <li>
+    <%= link_to 'Delete', account_incrementor_path(@account, incrementor), :confirm => 'Are you sure?', :method => :delete %> -
+    <%= link_to 'Edit', edit_account_incrementor_path(@account, incrementor) %> -
+    <%= incrementor.effectivedate %> : <%= incrementor.amountperday %> : <%= incrementor.description %></li>
+  <% end %>
+</ul>
+
+<%=link_to 'New Incrementor', new_account_incrementor_path(@account) %>
+
+

@@ -1,0 +1,32 @@
+
+<%= form_with model: [ account, incrementor ] do |t| %>
+    <%=t.text_field :account_id %><br />
+
+  <div>
+    <%=t.label :effectivedate %><br />
+    <%=t.text_field :effectivedate %><br />
+    <% @incrementor.errors.full_messages_for(:effectivedate).each do |msg| %>
+      <div class="error"><%= msg %><br /></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%=t.label :amountperday %><br />
+    <%=t.text_field :amountperday %><br />
+    <% @incrementor.errors.full_messages_for(:amountperday).each do |msg| %>
+      <div class="error"><%= msg %><br /></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%=t.label :description %><br />
+    <%=t.text_field :description %><br />
+    <% @incrementor.errors.full_messages_for(:description).each do |msg| %>
+      <div class="error"><%= msg %><br /></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= t.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,32 @@
+
+<%= form_with model: [ account, transaction ] do |t| %>
+    <%=t.text_field :account_id %><br />
+
+  <div>
+    <%=t.label :timestamp %><br />
+    <%=t.text_field :timestamp %><br />
+    <% @transaction.errors.full_messages_for(:timestamp).each do |msg| %>
+      <div class="error"><%= msg %><br /></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%=t.label :amount %><br />
+    <%=t.text_field :amount %><br />
+    <% @transaction.errors.full_messages_for(:amount).each do |msg| %>
+      <div class="error"><%= msg %><br /></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%=t.label :description %><br />
+    <%=t.text_field :description %><br />
+    <% @transaction.errors.full_messages_for(:description).each do |msg| %>
+      <div class="error"><%= msg %><br /></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= t.submit %>
+  </div>
+<% end %>
