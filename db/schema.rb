@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_08_180851) do
+ActiveRecord::Schema.define(version: 2021_07_09_012259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,32 @@ ActiveRecord::Schema.define(version: 2021_07_08_180851) do
     t.integer "account_id", null: false
     t.boolean "withholdIncrementToday"
     t.index ["account_id"], name: "index_transactions_on_account_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email"
+    t.string "login"
+    t.string "crypted_password"
+    t.string "password_salt"
+    t.string "persistence_token"
+    t.string "single_access_token"
+    t.string "perishable_token"
+    t.integer "login_count", default: 0, null: false
+    t.integer "failed_login_count", default: 0, null: false
+    t.datetime "last_request_at"
+    t.datetime "current_login_at"
+    t.datetime "last_login_at"
+    t.string "current_login_ip"
+    t.string "last_login_ip"
+    t.boolean "active", default: false
+    t.boolean "approved", default: false
+    t.boolean "confirmed", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["perishable_token"], name: "index_users_on_perishable_token", unique: true
+    t.index ["persistence_token"], name: "index_users_on_persistence_token", unique: true
+    t.index ["single_access_token"], name: "index_users_on_single_access_token", unique: true
   end
 
   add_foreign_key "incrementors", "accounts"

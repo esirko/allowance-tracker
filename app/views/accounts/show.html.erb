@@ -10,11 +10,12 @@
   <% end %> 
 </ul>
 
+<% if current_user %>
 <h2>Raw transactions</h2>
 <ul>
   <% @account.transactions.order(:timestamp).each do |transaction| %>
     <li>
-    <%= link_to 'Delete', account_transaction_path(@account, transaction), :confirm => 'Are you sure?', :method => :delete %> - 
+    <%= link_to 'Delete', account_transaction_path(@account, transaction), data: { confirm: 'Are you sure?' }, :method => :delete %> - 
     <%= link_to 'Edit', edit_account_transaction_path(@account, transaction) %> - 
     <%= transaction.timestamp %> : <%= transaction.withholdIncrementToday %> / <%= transaction.amount %> : <%= transaction.description %></li>
   <% end %> 
@@ -26,12 +27,12 @@
 <ul>
   <% @account.incrementors.order(:effectivedate).each do |incrementor| %>
     <li>
-    <%= link_to 'Delete', account_incrementor_path(@account, incrementor), :confirm => 'Are you sure?', :method => :delete %> -
+    <%= link_to 'Delete', account_incrementor_path(@account, incrementor), data: { confirm: 'Are you sure?' }, :method => :delete %> -
     <%= link_to 'Edit', edit_account_incrementor_path(@account, incrementor) %> -
     <%= incrementor.effectivedate %> : <%= incrementor.amountperday %> : <%= incrementor.description %></li>
   <% end %>
 </ul>
 
 <%=link_to 'New Incrementor', new_account_incrementor_path(@account) %>
-
+<% end %>
 

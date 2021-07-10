@@ -59,3 +59,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # https://github.com/adzap/validates_timeliness
 gem 'validates_timeliness', '~> 6.0.0.alpha1'
+
+gem 'authlogic'
+gem "scrypt", "~> 3.0"
+
+

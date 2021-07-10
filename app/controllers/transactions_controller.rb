@@ -1,20 +1,15 @@
 class TransactionsController < ApplicationController
-#  def index
-#    @transactions = Transaction.all
-#  end
-
-#  def show
-#    @transaction = Transaction.find(params[:id])
-#  end
+    before_action :require_user
 
   def new
     @account = Account.find(params[:account_id])
-    @transaction = Transaction.new(account_id: @account.id, timestamp: Time.now, amount: 0)
+    @transaction = Transaction.new(timestamp: Time.now, amount: 0)
   end
 
   def create
     @account = Account.find(params[:account_id])
     @transaction = Transaction.new(transaction_params)
+    @transaction.account_id = @account.id
     if @transaction.save
       redirect_to account_path(@account)
     else
@@ -45,6 +40,6 @@ class TransactionsController < ApplicationController
 
   private
   def transaction_params
-      params.require(:transaction).permit(:account_id, :timestamp, :withholdIncrementToday, :amount, :description)
+      params.require(:transaction).permit(:timestamp, :withholdIncrementToday, :amount, :description)
   end
 end

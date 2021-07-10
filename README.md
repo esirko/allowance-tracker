@@ -30,3 +30,11 @@ https://stackoverflow.com/questions/4338973/adding-a-model-reference-to-existing
 ```
 rails generate migration AddAccountRefToTransaction account:references
 ```
+
+To add an "admin-like" user, do this at the rails console:
+
+```
+user = User.new(login:'x', password:'xxx',active:true,approved:true,confirmed:true)
+user.save
+```
+If the transaction rollbacks, you can do `user.errors` to see what's wrong.

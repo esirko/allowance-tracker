@@ -1,15 +1,16 @@
 class IncrementorsController < ApplicationController
 
-  http_basic_authenticate_with name: "x", password: "xxx"
+  before_action :require_user
 
   def new
     @account = Account.find(params[:account_id])
-    @incrementor = Incrementor.new(account_id: @account.id, effectivedate: Time.now, amountperday: 0)
+    @incrementor = Incrementor.new(effectivedate: Time.now, amountperday: 0)
   end
 
   def create
     @account = Account.find(params[:account_id])
     @incrementor = Incrementor.new(incrementor_params)
+    @incrementor.account_id = @account.id
     if @incrementor.save
       redirect_to account_path(@account)
     else
@@ -40,6 +41,6 @@ class IncrementorsController < ApplicationController
 
   private
   def incrementor_params
-      params.require(:incrementor).permit(:account_id, :effectivedate, :amountperday, :description)
+      params.require(:incrementor).permit(:effectivedate, :amountperday, :description)
   end
 end
